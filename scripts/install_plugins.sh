@@ -39,15 +39,15 @@ clone_plugin() {
 install_plugin() {
   local plugin="$1"
   local branch="$2"
-  local plugin_name="$(plugin_name_helper "$plugin")"
+  local plugin_id="$(plugin_id_helper "$plugin")"
 
   if plugin_already_installed "$plugin"; then
-    echo_ok "Already installed \"$plugin_name\""
+    echo_ok "Already installed \"$plugin_id\""
   else
-    echo_ok "Installing \"$plugin_name\""
+    echo_ok "Installing \"$plugin_id\""
     clone_plugin "$plugin" "$branch" &&
-      echo_ok "  \"$plugin_name\" download success" ||
-      echo_err "  \"$plugin_name\" download fail"
+      echo_ok "  \"$plugin_id\" download success" ||
+      echo_err "  \"$plugin_id\" download fail"
   fi
 }
 

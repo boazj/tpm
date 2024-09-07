@@ -78,26 +78,21 @@ tpm_plugins_list_helper() {
 }
 
 # Allowed plugin name formats:
-# 1. "git://github.com/org/plugin_name.git"
-# 2. "org/plugin_name"
-# 3. "./org/plugin_name"
+# 1. "git://github.com/org/name.git"
+# 2. "org/name"
+# 3. "./org/name"
 #
-# returns "org/plugin_name"
+# returns "name"
 plugin_name_helper() {
   local plugin="$1"
-  # get only the part after the last slash, e.g. "plugin_name.git"
-  local plugin_basename="$(basename -s .git "$plugin")"
-  local plugin_dirname="$(dirname "$plugin")"
-  local plugin_org="$(basename "$plugin_dirname")"
-  # remove ".git" extension (if it exists) to get only "plugin_name"
-  #local plugin_name="${plugin_basename%.git}"
-  echo "$plugin_org/$plugin_name"
+  local plugin_name="$(basename -s .git "$plugin")"
+  echo "$plugin_name"
 }
 
 # Allowed plugin name formats:
-# 1. "git://github.com/org/plugin_name.git"
-# 2. "org/plugin_name"
-# 3. "./org/plugin_name"
+# 1. "git://github.com/org/name.git"
+# 2. "org/name"
+# 3. "./org/name"
 #
 # returns "org"
 plugin_org_helper() {
@@ -107,10 +102,23 @@ plugin_org_helper() {
   echo "$plugin_org"
 }
 
-plugin_path_helper() {
+# Allowed plugin name formats:
+# 1. "git://github.com/org/name.git"
+# 2. "org/name"
+# 3. "./org/name"
+#
+# returns "org/name"
+plugin_id_helper() {
   local plugin="$1"
   local plugin_name="$(plugin_name_helper "$plugin")"
-  echo "$(tpm_path)${plugin_name}/"
+  local plugin_org="$(plugin_org_helper "$plugin")"
+  echo "$plugin_org/$plugin_name"
+}
+
+plugin_path_helper() {
+  local plugin="$1"
+  local plugin_id="$(plugin_id_helper "$plugin")"
+  echo "$(tpm_path)${plugin_id}/"
 }
 
 plugin_already_installed() {

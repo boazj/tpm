@@ -7,7 +7,7 @@
 # - shows a list of installed plugins
 # - starts a prompt to enter the name of the plugin that will be updated
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPTS_DIR="$CURRENT_DIR/../scripts"
 HELPERS_DIR="$SCRIPTS_DIR/helpers"
 
@@ -16,34 +16,34 @@ source "$HELPERS_DIR/tmux_echo_functions.sh"
 source "$HELPERS_DIR/tmux_utils.sh"
 
 display_plugin_update_list() {
-	local plugins="$(tpm_plugins_list_helper)"
-	tmux_echo "Installed plugins:"
-	tmux_echo ""
+  local plugins="$(tpm_plugins_list_helper)"
+  tmux_echo "Installed plugins:"
+  tmux_echo ""
 
-	for plugin in $plugins; do
-		# displaying only installed plugins
-		if plugin_already_installed "$plugin"; then
-			local plugin_name="$(plugin_name_helper "$plugin")"
-			tmux_echo "  $plugin_name"
-		fi
-	done
+  for plugin in $plugins; do
+    # displaying only installed plugins
+    if plugin_already_installed "$plugin"; then
+      local plugin_id="$(plugin_id_helper "$plugin")"
+      tmux_echo "  $plugin_id"
+    fi
+  done
 
-	tmux_echo ""
-	tmux_echo "Type plugin name to update it."
-	tmux_echo ""
-	tmux_echo "- \"all\" - updates all plugins"
-	tmux_echo "- ENTER - cancels"
+  tmux_echo ""
+  tmux_echo "Type plugin name to update it."
+  tmux_echo ""
+  tmux_echo "- \"all\" - updates all plugins"
+  tmux_echo "- ENTER - cancels"
 }
 
 update_plugin_prompt() {
-	tmux command-prompt -p 'plugin update:' " \
+  tmux command-prompt -p 'plugin update:' " \
 		send-keys C-c; \
 		run-shell '$SCRIPTS_DIR/update_plugin_prompt_handler.sh %1'"
 }
 
 main() {
-	reload_tmux_environment
-	display_plugin_update_list
-	update_plugin_prompt
+  reload_tmux_environment
+  display_plugin_update_list
+  update_plugin_prompt
 }
 main

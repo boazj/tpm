@@ -20,7 +20,7 @@ clean_plugins() {
     [ -d "${plugin_directory}" ] || continue
     [[ "${plugin_directory}" == */tpm ]] && continue # dont remove tpm plugin
 
-    plugin="$(plugin_name_helper "${plugin_directory}")"
+    plugin="$(plugin_id_helper "${plugin_directory}")"
     case "${plugins}" in
     *"${plugin}"*) : ;;
     *)
