@@ -29,17 +29,17 @@ update() {
   local plugin="$1" output
   output=$(pull_changes "$plugin" 2>&1)
   if (($? == 0)); then
-    echo_ok "  \"$plugin\" update success"
-    echo_ok "$(echo "$output" | sed -e 's/^/    | /')"
+    # echo_ok "  \"$plugin\" update success"
+    echo_ok "$(echo "\"$plugin\" $output")"
   else
-    echo_err "  \"$plugin\" update fail"
-    echo_err "$(echo "$output" | sed -e 's/^/    | /')"
+    # echo_err "  \"$plugin\" update fail"
+    echo_err "$(echo "\"$plugin\" $output")"
   fi
 }
 
 update_all() {
-  echo_ok "Updating all plugins!"
-  echo_ok ""
+  # echo_ok "Updating all plugins!"
+  # echo_ok ""
   local plugins="$(tpm_plugins_list_helper)"
   for plugin in $plugins; do
     IFS='#' read -ra plugin <<<"$plugin"
